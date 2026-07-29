@@ -22903,11 +22903,14 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
     const iso = (d) => d.toISOString().slice(0, 10);
     while (cursor <= end) {
       const chunkStart = new Date(cursor);
-      const chunkEnd = new Date(cursor);
-      chunkEnd.setDate(chunkEnd.getDate() + 6);
+      const dow = chunkStart.getDay();
+      const daysUntilSaturday = 6 - dow;
+      const chunkEnd = new Date(chunkStart);
+      chunkEnd.setDate(chunkEnd.getDate() + daysUntilSaturday);
       if (chunkEnd > end) chunkEnd.setTime(end.getTime());
       chunks.push({ n: idx, de: iso(chunkStart), ate: iso(chunkEnd), label: `Semana ${idx}` });
-      cursor.setDate(cursor.getDate() + 7);
+      cursor = new Date(chunkEnd);
+      cursor.setDate(cursor.getDate() + 1);
       idx++;
     }
     return chunks;
@@ -24332,10 +24335,105 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
   // src/pages/ErrosPage.jsx
   var import_react15 = __toESM(require_react());
   var import_jsx_runtime15 = __toESM(require_jsx_runtime());
+  function exportErrosPDF(rows, total, totalDuplicatas, label, de, ate) {
+    if (typeof window.jspdf === "undefined") {
+      alert("N\xE3o foi poss\xEDvel carregar a biblioteca de PDF. Verifique sua conex\xE3o com a internet e tente novamente.");
+      return;
+    }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: "mm", format: "a4" });
+    const pageW = doc.internal.pageSize.getWidth();
+    const pageH = doc.internal.pageSize.getHeight();
+    const margin = 15;
+    const C_PRIMARY = [27, 75, 122];
+    const C_DANGER = [182, 73, 47];
+    const C_INK = [26, 32, 39];
+    const C_GRAY = [90, 100, 114];
+    const C_LIGHT = [221, 226, 232];
+    let y = 20;
+    doc.setTextColor(C_PRIMARY[0], C_PRIMARY[1], C_PRIMARY[2]);
+    doc.setFontSize(9);
+    doc.text("PAINEL DE QUALIDADE \xB7 UNIMED GRANDE FLORIAN\xD3POLIS", margin, y);
+    y += 8;
+    doc.setTextColor(C_INK[0], C_INK[1], C_INK[2]);
+    doc.setFontSize(19);
+    doc.text("Erros Operacionais \u2014 Ranking por Operador", margin, y);
+    y += 7;
+    doc.setFontSize(10.5);
+    doc.setTextColor(C_GRAY[0], C_GRAY[1], C_GRAY[2]);
+    doc.text(label, margin, y);
+    y += 6;
+    doc.setDrawColor(C_LIGHT[0], C_LIGHT[1], C_LIGHT[2]);
+    doc.line(margin, y, pageW - margin, y);
+    y += 8;
+    doc.autoTable({
+      startY: y,
+      margin: { left: margin, right: margin },
+      head: [["Indicador", "Valor"]],
+      body: [
+        ["Total de erros no per\xEDodo", total],
+        ["Operadores com erro", rows.length],
+        ["Poss\xEDveis duplicatas (mesmo protocolo+ticket)", totalDuplicatas]
+      ],
+      headStyles: { fillColor: C_PRIMARY, textColor: 255, fontSize: 9 },
+      styles: { fontSize: 9, textColor: C_INK }
+    });
+    y = doc.lastAutoTable.finalY + 12;
+    doc.setFontSize(12.5);
+    doc.setTextColor(C_INK[0], C_INK[1], C_INK[2]);
+    doc.text("Ranking por operador", margin, y);
+    y += 5;
+    doc.autoTable({
+      startY: y,
+      margin: { left: margin, right: margin },
+      head: [["Nome", "Squad", "Qtd. erros"]],
+      body: rows.map((r) => [r.nome || r.login, r.squad || "\u2014", r.qtd]),
+      headStyles: { fillColor: C_PRIMARY, textColor: 255, fontSize: 9 },
+      styles: { fontSize: 8.5 }
+    });
+    rows.forEach((r) => {
+      y = doc.lastAutoTable.finalY + 12;
+      if (y > pageH - 40) {
+        doc.addPage();
+        y = 20;
+      }
+      doc.setFontSize(11.5);
+      doc.setTextColor(C_INK[0], C_INK[1], C_INK[2]);
+      doc.text(`${r.nome || r.login} \u2014 ${r.qtd} erro(s)`, margin, y);
+      y += 5;
+      doc.autoTable({
+        startY: y,
+        margin: { left: margin, right: margin },
+        head: [["Data", "Protocolo", "Motivo", "Descri\xE7\xE3o", "Duplicata?"]],
+        body: r.erros.map((e) => [e.data || "\u2014", e.protocolo || "\u2014", e.motivo || "\u2014", e.descricao || "\u2014", e.duplicata ? "Sim" : ""]),
+        headStyles: { fillColor: C_PRIMARY, textColor: 255, fontSize: 8 },
+        styles: { fontSize: 7.2 },
+        columnStyles: { 3: { cellWidth: 60 } },
+        didParseCell: (hookData) => {
+          if (hookData.section === "body" && hookData.column.index === 4 && hookData.cell.raw === "Sim") {
+            hookData.cell.styles.fillColor = [255, 244, 229];
+            hookData.cell.styles.textColor = [183, 121, 31];
+            hookData.cell.styles.fontStyle = "bold";
+          }
+        }
+      });
+    });
+    const totalPages = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      doc.setFontSize(8);
+      doc.setTextColor(154, 165, 172);
+      doc.text(`P\xE1gina ${i} de ${totalPages}`, pageW - margin, pageH - 8, { align: "right" });
+      doc.text("Painel de Qualidade \u2014 Unimed Grande Florian\xF3polis", margin, pageH - 8);
+    }
+    const fileName = `Erros_Operacionais_${de}_a_${ate}.pdf`;
+    doc.save(fileName);
+  }
   function ErrosPage() {
     const f = useFilters();
     const { de, ate, label } = f.period;
     const [openLogin, setOpenLogin] = (0, import_react15.useState)(null);
+    const [gerandoPdf, setGerandoPdf] = (0, import_react15.useState)(false);
     const rows = (0, import_react15.useMemo)(() => {
       return f.activeLogins.map((login) => {
         const agentInfo = f.allAgents.find((a) => a.login === login);
@@ -24344,16 +24442,41 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
       }).filter((r) => r.qtd > 0).sort((a, b) => b.qtd - a.qtd);
     }, [f.activeLogins, de, ate]);
     const total = rows.reduce((s, r) => s + r.qtd, 0);
+    const totalDuplicatas = rows.reduce((s, r) => s + r.erros.filter((e) => e.duplicata).length, 0);
     const openRow = openLogin ? rows.find((r) => r.login === openLogin) : null;
     return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { style: { marginBottom: 22 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { style: eyebrow3, children: "Painel de qualidade \xB7 Erros operacionais" }),
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("h1", { style: h13, children: "Erros \u2014 Ranking por operador" }),
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { style: sub3, children: label })
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12, marginBottom: 22 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { style: eyebrow3, children: "Painel de qualidade \xB7 Erros operacionais" }),
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("h1", { style: h13, children: "Erros \u2014 Ranking por operador" }),
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { style: sub3, children: label })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+          "button",
+          {
+            onClick: () => {
+              setGerandoPdf(true);
+              setTimeout(() => {
+                try {
+                  exportErrosPDF(rows, total, totalDuplicatas, label, de, ate);
+                } catch (err) {
+                  console.error(err);
+                  alert("N\xE3o foi poss\xEDvel gerar o PDF: " + err.message);
+                } finally {
+                  setGerandoPdf(false);
+                }
+              }, 30);
+            },
+            disabled: gerandoPdf,
+            style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 12.5, fontWeight: 700, padding: "11px 18px", borderRadius: 10, border: "none", background: gerandoPdf ? COLORS.gray400 : COLORS.primary, color: "#fff", cursor: gerandoPdf ? "default" : "pointer", whiteSpace: "nowrap" },
+            children: gerandoPdf ? "Gerando\u2026" : "\u{1F4E5} Baixar PDF"
+          }
+        )
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { style: { display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(KpiCard, { value: total, label: "Total de erros no per\xEDodo", tone: total > 0 ? "bad" : "good" }),
         /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(KpiCard, { value: rows.length, label: "Operadores com erro" }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(KpiCard, { value: totalDuplicatas, label: "Poss\xEDveis duplicatas (mesmo protocolo+ticket)", tone: totalDuplicatas > 0 ? "bad" : "default" }),
         /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(KpiCard, { value: label, label: "Per\xEDodo selecionado" })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { style: card3, children: [
@@ -24404,7 +24527,10 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
               label: "Motivo",
               sortable: true,
               render: (r) => /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { style: { fontWeight: 700, color: COLORS.danger }, children: r.motivo }),
+                /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { style: { fontWeight: 700, color: COLORS.danger }, children: r.motivo }),
+                  r.duplicata && /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, fontWeight: 700, padding: "2px 7px", borderRadius: 999, background: "#FFF4E5", color: "#B7791F", whiteSpace: "nowrap" }, children: "poss\xEDvel duplicata" })
+                ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { style: { fontSize: 11.5, color: COLORS.gray600, marginTop: 2 }, children: r.descricao })
               ] })
             }
