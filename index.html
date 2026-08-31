@@ -8,7 +8,7 @@
 <style>
   *{ box-sizing: border-box; } body{ margin:0; background:#F7F8FA; } table{ width:100%; }
   input, select, button{ font-family: inherit; }
-  ::-webkit-scrollbar{ width:10px; height:10px; } ::-webkit-scrollbar-thumb{ background:#DDE2E8; border-radius:6px; }
+  ::-webkit-scrollbar{ width:10px; height:10px; } ::-webkit-scrollbar-thumb{ background:#E2E6EB; border-radius:6px; }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -22228,12 +22228,12 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
     doc.open();
     doc.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${title}</title>
     <style>
-      body{ font-family: Georgia, 'Fraunces', serif; color:#1A2027; padding:28px; max-width:820px; margin:0 auto; }
+      body{ font-family: Georgia, 'Fraunces', serif; color:#3A4250; padding:28px; max-width:820px; margin:0 auto; }
       h1{ font-family:'Fraunces', serif; font-size:22px; margin:0 0 2px; }
-      .sub{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:#5A6472; margin-bottom:22px; }
-      h4{ font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:#5A6472; margin:20px 0 10px; }
+      .sub{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:#6E7885; margin-bottom:22px; }
+      h4{ font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:#6E7885; margin:20px 0 10px; }
       table{ width:100%; border-collapse:collapse; font-size:12px; margin-top:6px; }
-      th, td{ text-align:left; padding:6px 8px; border-bottom:1px solid #DDE2E8; }
+      th, td{ text-align:left; padding:6px 8px; border-bottom:1px solid #E2E6EB; }
       svg{ max-width:100%; }
       @media print{ body{ padding:0; } }
     </style>
@@ -22351,24 +22351,24 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
 
   // src/theme.js
   var COLORS = {
-    primary: "#1B4B7A",
-    // azul profissional
-    primaryLight: "#E8F0F8",
-    accent: "#0F7A5C",
-    // verde
-    accentLight: "#E3F3ED",
-    gray50: "#F7F8FA",
-    gray100: "#EEF1F4",
-    gray200: "#DDE2E8",
-    gray400: "#98A2AE",
-    gray600: "#5A6472",
-    gray800: "#242C36",
-    ink: "#1A2027",
-    danger: "#B6492F",
-    warning: "#C98A2E",
+    primary: "#7C9DC7",
+    // azul pastel
+    primaryLight: "#EAF1F9",
+    accent: "#7FBFA0",
+    // verde pastel
+    accentLight: "#E8F5EE",
+    gray50: "#F8F8FA",
+    gray100: "#F0F1F4",
+    gray200: "#E2E6EB",
+    gray400: "#AAB2BE",
+    gray600: "#6E7885",
+    gray800: "#4A5568",
+    ink: "#3A4250",
+    danger: "#E29999",
+    warning: "#EAC28A",
     white: "#FFFFFF"
   };
-  var NOTA_COLOR = { 5: "#0F7A5C", 4: "#3FA377", 3: "#C9C24A", 2: "#D98C5F", 1: "#B6492F" };
+  var NOTA_COLOR = { 5: "#7FBFA0", 4: "#A9D6BE", 3: "#E8DE96", 2: "#F0BFA0", 1: "#E29999" };
 
   // src/components/Sidebar.jsx
   var import_jsx_runtime2 = __toESM(require_jsx_runtime());
@@ -23870,7 +23870,7 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
             /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { id: "agentReportPrintable", children: [
               /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { style: { display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20 }, children: [
                 /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(KpiCard, { value: m.avaliadosQtd, label: "Avalia\xE7\xF5es" }),
-                /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(KpiCard, { value: m.csat !== null ? m.csat.toFixed(2) : "\u2014", label: "M\xE9dia CSAT", tone: m.csat >= 4.3 ? "good" : "bad" }),
+                /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(KpiCard, { value: m.csat !== null ? m.csat.toFixed(2) : "\u2014", label: "M\xE9dia CSAT", tone: m.csat >= 4.2 ? "good" : "bad" }),
                 /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(KpiCard, { value: m.comentarios, label: "Coment\xE1rios recebidos" }),
                 /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(KpiCard, { value: fmtSec(m.tma_sec), label: "TMA" }),
                 /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(KpiCard, { value: fmtSec(m.tmr_sec), label: "TMR" }),
@@ -24379,7 +24379,7 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
         ] })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { style: { display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(KpiCard, { value: agg.csat !== null ? agg.csat.toFixed(2) : "\u2014", label: "CSAT m\xE9dio", tone: agg.csat >= 4.3 ? "good" : "bad" }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(KpiCard, { value: agg.csat !== null ? agg.csat.toFixed(2) : "\u2014", label: "CSAT m\xE9dio", tone: agg.csat >= 4.2 ? "good" : "bad" }),
         /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(KpiCard, { value: agg.avaliadosQtd.toLocaleString("pt-BR"), label: "Atendimentos avaliados" }),
         /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(KpiCard, { value: agentRows.length, label: "Atendentes com avalia\xE7\xE3o" }),
         /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(KpiCard, { value: label, label: "Per\xEDodo selecionado" })
@@ -24441,7 +24441,7 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
                 sortable: true,
                 align: "right",
                 sortValue: (r) => r.csat ?? -1,
-                render: (r) => r.csat !== null ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { style: { background: r.csat >= 4.3 ? COLORS.accentLight : "#FBE8E2", color: r.csat >= 4.3 ? COLORS.accent : COLORS.danger, fontWeight: 700, padding: "3px 9px", borderRadius: 8 }, children: r.csat.toFixed(2) }) : "\u2014"
+                render: (r) => r.csat !== null ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { style: { background: r.csat >= 4.2 ? COLORS.accentLight : "#FBE8E2", color: r.csat >= 4.2 ? COLORS.accent : COLORS.danger, fontWeight: 700, padding: "3px 9px", borderRadius: 8 }, children: r.csat.toFixed(2) }) : "\u2014"
               },
               { key: "comentarios", label: "Coment\xE1rios", sortable: true, align: "right" },
               { key: "erros", label: "Erros", sortable: true, align: "right", render: (r) => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { style: { color: r.erros > 0 ? COLORS.danger : COLORS.accent, fontWeight: 600 }, children: r.erros }) }
@@ -24906,7 +24906,7 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
                 sortable: true,
                 align: "right",
                 sortValue: (r) => r.csat ?? -1,
-                render: (r) => r.csat !== null ? /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { style: { background: r.csat >= 4.3 ? COLORS.accentLight : "#FBE8E2", color: r.csat >= 4.3 ? COLORS.accent : COLORS.danger, fontWeight: 700, padding: "3px 9px", borderRadius: 8 }, children: r.csat.toFixed(2) }) : "\u2014"
+                render: (r) => r.csat !== null ? /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { style: { background: r.csat >= 4.2 ? COLORS.accentLight : "#FBE8E2", color: r.csat >= 4.2 ? COLORS.accent : COLORS.danger, fontWeight: 700, padding: "3px 9px", borderRadius: 8 }, children: r.csat.toFixed(2) }) : "\u2014"
               },
               { key: "erros", label: "Erros", sortable: true, align: "right", render: (r) => /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { style: { color: r.erros > 0 ? COLORS.danger : COLORS.accent, fontWeight: 600 }, children: r.erros }) }
             ],
@@ -25293,7 +25293,7 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
     if (posicao === 3) return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("span", { style: { fontSize: 20 }, children: "\u{1F949}" });
     return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, color: COLORS.gray400 }, children: posicao });
   }
-  var LOJINHA_LINE_COLORS = ["#1B4B7A", "#0F7A5C", "#B6492F", "#C98A2E", "#7C3AED", "#DB2777"];
+  var LOJINHA_LINE_COLORS = ["#7C9DC7", "#7FBFA0", "#E29999", "#EAC28A", "#B39DDB", "#F4A6C6"];
   function LojinhaEvolutionChart({ linhas, days }) {
     const top = linhas.slice(0, 6);
     const W = Math.max(560, days.length * 46), H = 260;
