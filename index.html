@@ -23870,7 +23870,7 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
             /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { id: "agentReportPrintable", children: [
               /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { style: { display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20 }, children: [
                 /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(KpiCard, { value: m.avaliadosQtd, label: "Avalia\xE7\xF5es" }),
-                /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(KpiCard, { value: m.csat !== null ? m.csat.toFixed(2) : "\u2014", label: "M\xE9dia CSAT", tone: m.csat >= 4.2 ? "good" : "bad" }),
+                /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(KpiCard, { value: m.csat !== null ? m.csat.toFixed(2) : "\u2014", label: "M\xE9dia CSAT", tone: m.csat >= 4.3 ? "good" : "bad" }),
                 /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(KpiCard, { value: m.comentarios, label: "Coment\xE1rios recebidos" }),
                 /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(KpiCard, { value: fmtSec(m.tma_sec), label: "TMA" }),
                 /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(KpiCard, { value: fmtSec(m.tmr_sec), label: "TMR" }),
@@ -24379,7 +24379,7 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
         ] })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { style: { display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(KpiCard, { value: agg.csat !== null ? agg.csat.toFixed(2) : "\u2014", label: "CSAT m\xE9dio", tone: agg.csat >= 4.2 ? "good" : "bad" }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(KpiCard, { value: agg.csat !== null ? agg.csat.toFixed(2) : "\u2014", label: "CSAT m\xE9dio", tone: agg.csat >= 4.3 ? "good" : "bad" }),
         /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(KpiCard, { value: agg.avaliadosQtd.toLocaleString("pt-BR"), label: "Atendimentos avaliados" }),
         /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(KpiCard, { value: agentRows.length, label: "Atendentes com avalia\xE7\xE3o" }),
         /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(KpiCard, { value: label, label: "Per\xEDodo selecionado" })
@@ -24441,7 +24441,7 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
                 sortable: true,
                 align: "right",
                 sortValue: (r) => r.csat ?? -1,
-                render: (r) => r.csat !== null ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { style: { background: r.csat >= 4.2 ? COLORS.accentLight : "#FBE8E2", color: r.csat >= 4.2 ? COLORS.accent : COLORS.danger, fontWeight: 700, padding: "3px 9px", borderRadius: 8 }, children: r.csat.toFixed(2) }) : "\u2014"
+                render: (r) => r.csat !== null ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { style: { background: r.csat >= 4.3 ? COLORS.accentLight : "#FBE8E2", color: r.csat >= 4.3 ? COLORS.accent : COLORS.danger, fontWeight: 700, padding: "3px 9px", borderRadius: 8 }, children: r.csat.toFixed(2) }) : "\u2014"
               },
               { key: "comentarios", label: "Coment\xE1rios", sortable: true, align: "right" },
               { key: "erros", label: "Erros", sortable: true, align: "right", render: (r) => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { style: { color: r.erros > 0 ? COLORS.danger : COLORS.accent, fontWeight: 600 }, children: r.erros }) }
@@ -24906,7 +24906,7 @@ O contato para novas contrata\xE7\xF5es PJ \xE9 com o setor de Vendas na op\xE7\
                 sortable: true,
                 align: "right",
                 sortValue: (r) => r.csat ?? -1,
-                render: (r) => r.csat !== null ? /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { style: { background: r.csat >= 4.2 ? COLORS.accentLight : "#FBE8E2", color: r.csat >= 4.2 ? COLORS.accent : COLORS.danger, fontWeight: 700, padding: "3px 9px", borderRadius: 8 }, children: r.csat.toFixed(2) }) : "\u2014"
+                render: (r) => r.csat !== null ? /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { style: { background: r.csat >= 4.3 ? COLORS.accentLight : "#FBE8E2", color: r.csat >= 4.3 ? COLORS.accent : COLORS.danger, fontWeight: 700, padding: "3px 9px", borderRadius: 8 }, children: r.csat.toFixed(2) }) : "\u2014"
               },
               { key: "erros", label: "Erros", sortable: true, align: "right", render: (r) => /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { style: { color: r.erros > 0 ? COLORS.danger : COLORS.accent, fontWeight: 600 }, children: r.erros }) }
             ],
